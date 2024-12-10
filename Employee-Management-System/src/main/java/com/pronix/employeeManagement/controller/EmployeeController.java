@@ -3,6 +3,8 @@ package com.pronix.employeeManagement.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,46 +16,51 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pronix.employeeManagement.entity.Employee;
 import com.pronix.employeeManagement.service.EmployeeService;
+import com.pronix.employeeManagement.serviceImpl.EmployeeServiceImpl;
 
 @RestController
 @RequestMapping("/")
-public class EmployeeController extends EmployeeService {
+public class EmployeeController extends EmployeeServiceImpl {
+
 	@Autowired
-	private EmployeeService employeeService;
+	private EmployeeServiceImpl employeeServiceImpl;
 
 //	public EmployeeController (EmployeeService employeeService) {
 //		this.employeeService=employeeService;
 //	}
-	@Override
-	@GetMapping("/")
+
+	@GetMapping("/getAllEmployee/")
 	public List<Employee> getAllEmployee() {
-		return employeeService.getAllEmployee();
-	}
-	
-	@Override
-	@GetMapping("/{id}")
-	public Employee getEmployeeById(@PathVariable Long id) {
-		return employeeService.getEmployeeById(id);
+		return employeeServiceImpl.getAllEmployee();
 	}
 
-	@Override
-	@PostMapping("/")
+	@GetMapping("/getEmployeeById/{id}")
+	public Employee getEmployeeById(@PathVariable Long id) {
+		return employeeServiceImpl.getEmployeeById(id);
+	}
+
+	@PostMapping("/saveEmployee/")
 	public Employee saveEmployee(@RequestBody Employee emp) {
-		return employeeService.saveEmployee(emp);
+		return employeeServiceImpl.saveEmployee(emp);
 	}
-	
-	@Override
-	@DeleteMapping("/{id}")
+
+	@DeleteMapping("/deleteEmployee/{id}")
 	public String deleteEmployee(@PathVariable Long id) throws Exception {
-		return employeeService.deleteEmployee(id);
+		return employeeServiceImpl.deleteEmployee(id);
 	}
-	
-	@Override
-	@PutMapping("/")
-	public Employee updateEmployee(@RequestBody Employee emp) {
-		return employeeService.saveEmployee(emp);
-		
+
+	@PutMapping("/updateEmployeeById/{id}")
+	public ResponseEntity<Employee> updateEmployeeById(@PathVariable Long id, @RequestBody Employee employee) {
+		try {
+			// Call the service layer to update the employee by ID
+			Employee updatedEmployee = employeeServiceImpl.updateEmployee(id, employee);
+			// Return updated employee with status 200 OK
+			return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
+		} catch (Exception e) {
+			// If an error occurs (e.g., employee not found), return a 404 Not Found with
+			// error message
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 	}
-	
 
 }
