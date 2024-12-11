@@ -43,40 +43,35 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return "Employee " + id + " is deleted Sucessfully";
 	}
 
-	
-	
 	@Override
 	public Employee updateEmployee(Long employeeId, Employee emp) throws Exception {
-	    // Fetch the existing employee by ID
-	    Employee existingEmployee = employeeRepository.findById(employeeId)
-	            .orElseThrow(() -> new Exception("Employee not found for ID: " + employeeId));
+		// Fetch the existing employee by ID
+		Employee existingEmployee = employeeRepository.findById(employeeId)
+				.orElseThrow(() -> new Exception("Employee not found for ID: " + employeeId));
 
-	    // Update name if provided and different from the current value
-	    if (emp.getName() != null && !emp.getName().isEmpty()) {
-	        existingEmployee.setName(emp.getName());
-	    }
+		// Update name if provided and different from the current value
+		if (emp.getName() != null && !emp.getName().isEmpty()) {
+			existingEmployee.setName(emp.getName());
+		}
 
-	    // Update email if provided and different from the current value
-	    if (emp.getEmail() != null && !emp.getEmail().isEmpty()) {
-	        existingEmployee.setEmail(emp.getEmail());
-	    }
+		// Update email if provided and different from the current value
+		if (emp.getEmail() != null && !emp.getEmail().isEmpty()) {
+			existingEmployee.setEmail(emp.getEmail());
+		}
 
-	    // Update salary if valid and greater than 0
-	    if (emp.getSalary() != null && emp.getSalary() > 0) {
-	        existingEmployee.setSalary(emp.getSalary());
-	    }
+		// Update salary if valid and greater than 0
+		if (emp.getSalary() != null && emp.getSalary() > 0) {
+			existingEmployee.setSalary(emp.getSalary());
+		}
 
-	    // Update department name if provided and different from the current value
-	    if (emp.getDepartmentName() != null && !emp.getDepartmentName().isEmpty()) {
-	        existingEmployee.setDepartmentName(emp.getDepartmentName());
-	    }
+		// Update department name if provided and different from the current value
+		if (emp.getDepartmentName() != null && !emp.getDepartmentName().isEmpty()) {
+			existingEmployee.setDepartmentName(emp.getDepartmentName());
+		}
 
-	    // Save and return the updated employee
-	    return employeeRepository.save(existingEmployee);
+		// Save and return the updated employee
+		return employeeRepository.save(existingEmployee);
 	}
-
-
-
 
 //	public Employee dtoToEmployee(EmployeeDto employeeDto) {
 //		Employee employee = new Employee();
