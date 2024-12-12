@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pronix.employeeManagement.entity.Employee;
+import com.pronix.employeeManagement.exception.AllDataRequiredException;
+import com.pronix.employeeManagement.exception.EmployeeNotFoundException;
 import com.pronix.employeeManagement.repository.EmployeeRepository;
 import com.pronix.employeeManagement.service.EmployeeService;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -17,9 +17,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
-//		public EmployeeService(EmployeeRepository employeeRepository) {
-//			this.employeeRepository = employeeRepository;
-//		}
 	@Override
 	public List<Employee> getAllEmployee() {
 		return employeeRepository.findAll();
@@ -28,67 +25,58 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee getEmployeeById(Long id) {
 		return employeeRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found!"));
+				.orElseThrow(() -> new EmployeeNotFoundException("Employee with ID " + id + " not found!"));
 	}
 
 	@Override
-	public Employee saveEmployee(Employee emp) {
-		return employeeRepository.save(emp);
+	public String saveEmployee(Employee emp) {
+		if (emp.getName() != null && emp.getEmail() != null && emp.getDepartmentName() != null && emp.getSalary() > 0) {
+
+			// Save employee to the repository
+			Employee savedEmployee = employeeRepository.save(emp);
+			return "Employee saved with emp Id : " + savedEmployee.getId();
+		} else {
+			throw new AllDataRequiredException("All required fields must be provided.");
+		}
 	}
 
 	@Override
-	public String deleteEmployee(Long id) throws Exception {
-		Employee emp = employeeRepository.findById(id).orElseThrow(() -> new Exception("User Id not found..."));
-		employeeRepository.delete(emp);
-		return "Employee " + id + " is deleted Sucessfully";
+	public String deleteEmployee(Long id) {
+		if (employeeRepository.existsById(id)) {
+			employeeRepository.deleteById(id);
+			return "Employee with ID " + id + " has been deleted successfully.";
+		} else {
+			throw new EmployeeNotFoundException("Employee with ID " + id + " is not found.");
+		}
 	}
 
 	@Override
-	public Employee updateEmployee(Long employeeId, Employee emp) throws Exception {
-		// Fetch the existing employee by ID
-		Employee existingEmployee = employeeRepository.findById(employeeId)
-				.orElseThrow(() -> new Exception("Employee not found for ID: " + employeeId));
+	public Employee updateEmployee(Long employeeId, Employee emp) throws EmployeeNotFoundException {
+	    // Fetch the existing employee by ID
+	    Employee existingEmployee = employeeRepository.findById(employeeId)
+	            .orElseThrow(() -> new EmployeeNotFoundException("Employee not found for ID: " + employeeId));
 
-		// Update name if provided and different from the current value
-		if (emp.getName() != null && !emp.getName().isEmpty()) {
-			existingEmployee.setName(emp.getName());
-		}
+	    // Update properties only if they are valid and different from the current values
+	    if (emp.getName() != null && !emp.getName().isEmpty() && !emp.getName().equals(existingEmployee.getName())) {
+	        existingEmployee.setName(emp.getName());
+	    }
 
-		// Update email if provided and different from the current value
-		if (emp.getEmail() != null && !emp.getEmail().isEmpty()) {
-			existingEmployee.setEmail(emp.getEmail());
-		}
+	    if (emp.getEmail() != null && !emp.getEmail().isEmpty() && !emp.getEmail().equals(existingEmployee.getEmail())) {
+	        existingEmployee.setEmail(emp.getEmail());
+	    }
 
-		// Update salary if valid and greater than 0
-		if (emp.getSalary() != null && emp.getSalary() > 0) {
-			existingEmployee.setSalary(emp.getSalary());
-		}
+	    if (emp.getSalary() != null && emp.getSalary() > 0 && !emp.getSalary().equals(existingEmployee.getSalary())) {
+	        existingEmployee.setSalary(emp.getSalary());
+	    }
 
-		// Update department name if provided and different from the current value
-		if (emp.getDepartmentName() != null && !emp.getDepartmentName().isEmpty()) {
-			existingEmployee.setDepartmentName(emp.getDepartmentName());
-		}
+	    if (emp.getDepartmentName() != null && !emp.getDepartmentName().isEmpty()
+	            && !emp.getDepartmentName().equals(existingEmployee.getDepartmentName())) {
+	        existingEmployee.setDepartmentName(emp.getDepartmentName());
+	    }
 
-		// Save and return the updated employee
-		return employeeRepository.save(existingEmployee);
+	    // Save and return the updated employee
+	    return employeeRepository.save(existingEmployee);
 	}
 
-//	public Employee dtoToEmployee(EmployeeDto employeeDto) {
-//		Employee employee = new Employee();
-//		employee.setId(employeeDto.getId());
-//		employee.setName(employeeDto.getName());
-//		employee.setEmail(employeeDto.getEmail());
-//		employee.setSalary(employeeDto.getSalary());
-//		return employee;
-//	}
-//
-//	public EmployeeDto employeeToDto(Employee emp) {
-//		EmployeeDto dto = new EmployeeDto();
-//		dto.setId(emp.getId());
-//		dto.setName(emp.getName());
-//		dto.setEmail(emp.getEmail());
-//		dto.setSalary(emp.getSalary());
-//		return dto;
-//	}
 
 }

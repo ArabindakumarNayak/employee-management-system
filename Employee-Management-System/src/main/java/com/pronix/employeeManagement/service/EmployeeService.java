@@ -10,7 +10,7 @@ public interface EmployeeService {
 
 	public Employee getEmployeeById(Long id);
 
-	public Employee saveEmployee(Employee emp);
+	public String saveEmployee(Employee emp);
 
 	public String deleteEmployee(Long id) throws Exception;
 

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pronix.employeeManagement.entity.Employee;
-import com.pronix.employeeManagement.service.EmployeeService;
+import com.pronix.employeeManagement.exception.EmployeeNotFoundException;
 import com.pronix.employeeManagement.serviceImpl.EmployeeServiceImpl;
 
 @RestController
@@ -40,23 +40,29 @@ public class EmployeeController extends EmployeeServiceImpl {
 	}
 
 	@PostMapping("/saveEmployee/")
-	public Employee saveEmployee(@RequestBody Employee emp) {
+	public String saveEmployee(@RequestBody Employee emp) {
 		return employeeServiceImpl.saveEmployee(emp);
 	}
 
 	@DeleteMapping("/deleteEmployee/{id}")
-	public String deleteEmployee(@PathVariable Long id) throws Exception {
+	public String deleteEmployee(@PathVariable Long id) {
 		return employeeServiceImpl.deleteEmployee(id);
 	}
 
 	@PutMapping("/updateEmployeeById/{id}")
-	public ResponseEntity<Employee> updateEmployeeById(@PathVariable Long id, @RequestBody Employee employee) {
+	public ResponseEntity<?> updateEmployeeById(@PathVariable Long id, @RequestBody Employee employee) {
 		try {
 			// Call the service layer to update the employee by ID
 			Employee updatedEmployee = employeeServiceImpl.updateEmployee(id, employee);
 			// Return updated employee with status 200 OK
 			return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
-		} catch (Exception e) {
+		} 
+		catch (EmployeeNotFoundException ex) {
+	        // Return a 404 Not Found with a clear error message if the employee is not found
+	        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+	    }
+		
+		catch (Exception e) {
 			// If an error occurs (e.g., employee not found), return a 404 Not Found with
 			// error message
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
