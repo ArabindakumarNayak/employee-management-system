@@ -78,5 +78,33 @@ public class EmployeeServiceImpl implements EmployeeService {
 	    return employeeRepository.save(existingEmployee);
 	}
 
+//	@Override
+//	public List<Employee> addEmployees(List<Employee> employees) {
+//	    // Validate the input list
+//	    if (employees == null || employees.isEmpty()) {
+//	        throw new AllDataRequiredException("Employee list cannot be null or empty.");
+//	    }
+//
+//	    // Ensure all required fields are provided for each employee
+//	    for (Employee emp : employees) {
+//	        if (emp.getName() == null || emp.getEmail() == null || emp.getDepartmentName() == null || emp.getSalary() == null || emp.getSalary() <= 0) {
+//	            throw new AllDataRequiredException("All required fields must be provided for each employee.");
+//	        }
+//	    }
+//
+//	    // Save all employees to the repository
+//	    return employeeRepository.saveAll(employees);
+//	}
+	
+//	@Override
+//	public List<Employee> addEmployees(List<Employee> employees) {
+//		em
+//		return employees;
+//		
+//	}
+//	
+	
+
+
 
 }

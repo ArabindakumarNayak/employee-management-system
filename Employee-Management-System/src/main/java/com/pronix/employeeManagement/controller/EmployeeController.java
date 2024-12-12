@@ -68,5 +68,17 @@ public class EmployeeController extends EmployeeServiceImpl {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 	}
+	
+//	@PostMapping("/addAllEmployees")
+//	public ResponseEntity<List<Employee>> addEmployees(List<Employee> employees){
+//		List<Employee> employees2 = employeeServiceImpl.addEmployees(employees);
+//		return new ResponseEntity<List<Employee>>(employees2,HttpStatus.OK);
+//	}
+	
+//	@PostMapping("/addAllEmployees")
+//	public List<Employee> addEmployees(@RequestBody List<Employee> employees){
+//		return employeeServiceImpl.addEmployees(employees);
+//		
+//	}
 
 }

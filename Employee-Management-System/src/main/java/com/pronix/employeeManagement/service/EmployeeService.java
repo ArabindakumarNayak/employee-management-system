@@ -15,5 +15,7 @@ public interface EmployeeService {
 	public String deleteEmployee(Long id) throws Exception;
 
 	Employee updateEmployee(Long employeeId, Employee emp) throws Exception;
+	
+//	List<Employee> addEmployees(List<Employee> employees);
 
 }
