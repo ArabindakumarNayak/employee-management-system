@@ -9,16 +9,6 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-//@Configuration
-//public class SecurityConfig {
-//
-//	@Bean
-//	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//		return httpSecurity.csrf(c->c.disable()).build();
-//	}
-//	
-//	
-//}
 
 @Configuration
 public class SecurityConfig {
@@ -40,7 +30,7 @@ public class SecurityConfig {
         return NoOpPasswordEncoder.getInstance();
     }
 
-    @Bean
+//    @Bean
     public AuthenticationManagerBuilder configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
             .withUser("ashok").password("ashok@123").authorities("admin").and()
