@@ -33,27 +33,27 @@ public class SecurityConfig {
     
     //this if used for in-memory authorization
     
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//    	
-//    	UserDetails user1=User
-//    			.withDefaultPasswordEncoder()
-//    			.username("Arabinda")
-//    			.password("Arabinda@1234")
-//    			.roles("Dev")
-//    			.build();
-//    	
-//    	UserDetails user2=User
-//    			.withDefaultPasswordEncoder()
-//    			.username("Liju")
-//    			.password("Liju@1234")
-//    			.roles("Dev")
-//    			.build();
-//    	
-//    	
-//    	return new InMemoryUserDetailsManager(user1,user2);
-//    	
-//    }
+    @Bean
+    public UserDetailsService userDetailsService() {
+    	
+    	UserDetails user1=User
+    			.withDefaultPasswordEncoder()
+    			.username("Arabinda")
+    			.password("Arabinda@1234")
+    			.roles("Dev")
+    			.build();
+    	
+    	UserDetails user2=User
+    			.withDefaultPasswordEncoder()
+    			.username("Liju")
+    			.password("Liju@1234")
+    			.roles("Dev")
+    			.build();
+    	
+    	
+    	return new InMemoryUserDetailsManager(user1,user2);
+    	
+    }
     
     
     
