@@ -5,8 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -15,29 +19,41 @@ public class SecurityConfig {
 
     @Bean 
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(c->c.disable())
-        	.httpBasic(Customizer.withDefaults())
+        http.csrf(c->c.disable());
+        	http.httpBasic(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/saveEmployee", "/getEmployeeById/**").permitAll() 
+                .requestMatchers("/saveEmployee", "/getEmployeeById/**","/getAllEmployee/").permitAll() 
                 .anyRequest().authenticated()
-            )
-            .formLogin(); // Enables form-based login
+            );
+//            .formLogin(); // Enables form-based login
         return http.build();
     }
     
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
-
+    
+    
+    //this if used for in-memory authorization
+    
 //    @Bean
-    public AuthenticationManagerBuilder configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-            .withUser("ashok").password("ashok@123").authorities("admin").and()
-            .withUser("raju").password("raju@123").authorities("read").and()
-            .withUser("mahesh").password("mahesh@123").authorities("read");
-        return auth;
-    }
+//    public UserDetailsService userDetailsService() {
+//    	
+//    	UserDetails user1=User
+//    			.withDefaultPasswordEncoder()
+//    			.username("Arabinda")
+//    			.password("Arabinda@1234")
+//    			.roles("Dev")
+//    			.build();
+//    	
+//    	UserDetails user2=User
+//    			.withDefaultPasswordEncoder()
+//    			.username("Liju")
+//    			.password("Liju@1234")
+//    			.roles("Dev")
+//    			.build();
+//    	
+//    	
+//    	return new InMemoryUserDetailsManager(user1,user2);
+//    	
+//    }
     
     
     
