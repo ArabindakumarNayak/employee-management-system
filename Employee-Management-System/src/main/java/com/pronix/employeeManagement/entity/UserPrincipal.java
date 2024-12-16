@@ -5,10 +5,12 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UserPrincipal implements UserDetails{
+public class UserPrincipal implements UserDetails {
+
+	private User user;
 
 	public UserPrincipal(User user) {
-		// TODO Auto-generated constructor stub
+		this.user = user;
 	}
 
 	@Override
@@ -20,13 +22,13 @@ public class UserPrincipal implements UserDetails{
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return null;
+		return user.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return null;
+		return user.getUsername();
 	}
 
 }
