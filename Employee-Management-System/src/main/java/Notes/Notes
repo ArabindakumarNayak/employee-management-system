@@ -1,0 +1,27 @@
+Given that there is no default password encoder configured, each password must have a password encoding prefix. 
+Please either prefix this password with '{noop}' or set a default password encoder in `DelegatingPasswordEncoder`.
+
+https://stackoverflow.com/questions/56762121/configure-nooppasswordencoder-in-spring
+
+5
+
+Though a little late, here is what I found:
+
+If you want to store the password as plaintext you will have to prefix it with {noop}. 
+Default PasswordEncoder i.e DelegatingPasswordEncoder should take care of matching it. 
+For e.g. if your plaintext password is abc123ABC you will have to store it in database as {noop}abc123ABC
+
+(Valid for Spring Security 5.x onwards)
+
+mysql> select * from user;
++----+----------+----------+
+| id | password | username |
++----+----------+----------+
+|  1 | {noop}a  | Arabinda |
+|  2 | r@1234   | Raju     |
++----+----------+----------+
+
+if you are going to put username as "Arabinda" and password as "a" then it going to access.
+otherwise its going to get the error like Unauthorized.
+ 
+

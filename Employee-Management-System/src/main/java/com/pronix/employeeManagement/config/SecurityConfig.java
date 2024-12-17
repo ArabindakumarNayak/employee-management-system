@@ -24,7 +24,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(c->c.disable());
         	http.httpBasic(Customizer.withDefaults())
-        	.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//        	.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/saveEmployee", "/getEmployeeById/**").permitAll() 
                 .anyRequest().authenticated()
