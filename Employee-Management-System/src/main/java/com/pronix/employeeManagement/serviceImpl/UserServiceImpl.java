@@ -17,6 +17,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private JWTServiceImpl jwtService;
+
 	// creation of
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
@@ -35,6 +38,29 @@ public class UserServiceImpl implements UserService {
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
 
+	}
+
+	@Override
+	public String login(User user) {
+		// Check if the user exists in the repository by username
+		User existingUser = userRepository.findByUsername(user.getUsername());
+
+		if (existingUser != null) {
+			// Validate the password using BCryptPasswordEncoder's matches method
+			if (encoder.matches(user.getPassword(), existingUser.getPassword())) {
+				// Return a success message or generate a token
+
+				String token = jwtService.generateToken(user.getUsername());
+
+				return token;
+			} else {
+				// Return a failure message for incorrect password
+				return "Invalid password!";
+			}
+		} else {
+			// Return a failure message for user not found
+			return "User not found!";
+		}
 	}
 
 }

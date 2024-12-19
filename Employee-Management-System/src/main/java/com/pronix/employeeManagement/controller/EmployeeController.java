@@ -25,9 +25,6 @@ public class EmployeeController extends EmployeeServiceImpl {
 	@Autowired
 	private EmployeeServiceImpl employeeServiceImpl;
 
-//	public EmployeeController (EmployeeService employeeService) {
-//		this.employeeService=employeeService;
-//	}
 
 	@GetMapping("/getAllEmployee/")
 	public List<Employee> getAllEmployee() {

@@ -22,4 +22,15 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> handleAllDataRequiredException(AllDataRequiredException ex) {
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
 	}
+
+	@ExceptionHandler(ValidUsernameNotFoundException.class)
+	public ResponseEntity<String> handleUserNotFoundException(ValidUsernameNotFoundException ex) {
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(UsernameOrPasswordNotValidException.class)
+	public ResponseEntity<String> handleUsernameOrPasswordNotValidException(UsernameOrPasswordNotValidException ex) {
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+
 }

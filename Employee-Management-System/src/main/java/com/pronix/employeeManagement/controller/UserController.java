@@ -13,7 +13,7 @@ import com.pronix.employeeManagement.entity.User;
 import com.pronix.employeeManagement.serviceImpl.UserServiceImpl;
 
 @RestController
-@RequestMapping("/registerUser")
+@RequestMapping("/user")
 public class UserController {
 
 	@Autowired
@@ -27,6 +27,11 @@ public class UserController {
 	@GetMapping("/getAllUsers/")
 	public List<User> getAll() {
 		return userServiceImpl.getAllUsers();
+	}
+	
+	@PostMapping("/login/")
+	public String login(@RequestBody User user) {
+		return userServiceImpl.login(user);
 	}
 
 }

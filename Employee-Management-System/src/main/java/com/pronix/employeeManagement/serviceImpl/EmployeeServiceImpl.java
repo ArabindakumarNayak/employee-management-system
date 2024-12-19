@@ -52,59 +52,48 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee updateEmployee(Long employeeId, Employee emp) throws EmployeeNotFoundException {
-	    // Fetch the existing employee by ID
-	    Employee existingEmployee = employeeRepository.findById(employeeId)
-	            .orElseThrow(() -> new EmployeeNotFoundException("Employee not found for ID: " + employeeId));
+		// Fetch the existing employee by ID
+		Employee existingEmployee = employeeRepository.findById(employeeId)
+				.orElseThrow(() -> new EmployeeNotFoundException("Employee not found for ID: " + employeeId));
 
-	    // Update properties only if they are valid and different from the current values
-	    if (emp.getName() != null && !emp.getName().isEmpty() && !emp.getName().equals(existingEmployee.getName())) {
-	        existingEmployee.setName(emp.getName());
-	    }
+		// Update properties only if they are valid and different from the current
+		// values
+		if (emp.getName() != null && !emp.getName().isEmpty() && !emp.getName().equals(existingEmployee.getName())) {
+			existingEmployee.setName(emp.getName());
+		}
 
-	    if (emp.getEmail() != null && !emp.getEmail().isEmpty() && !emp.getEmail().equals(existingEmployee.getEmail())) {
-	        existingEmployee.setEmail(emp.getEmail());
-	    }
+		if (emp.getEmail() != null && !emp.getEmail().isEmpty()
+				&& !emp.getEmail().equals(existingEmployee.getEmail())) {
+			existingEmployee.setEmail(emp.getEmail());
+		}
 
-	    if (emp.getSalary() != null && emp.getSalary() > 0 && !emp.getSalary().equals(existingEmployee.getSalary())) {
-	        existingEmployee.setSalary(emp.getSalary());
-	    }
+		if (emp.getSalary() != null && emp.getSalary() > 0 && !emp.getSalary().equals(existingEmployee.getSalary())) {
+			existingEmployee.setSalary(emp.getSalary());
+		}
 
-	    if (emp.getDepartmentName() != null && !emp.getDepartmentName().isEmpty()
-	            && !emp.getDepartmentName().equals(existingEmployee.getDepartmentName())) {
-	        existingEmployee.setDepartmentName(emp.getDepartmentName());
-	    }
+		if (emp.getDepartmentName() != null && !emp.getDepartmentName().isEmpty()
+				&& !emp.getDepartmentName().equals(existingEmployee.getDepartmentName())) {
+			existingEmployee.setDepartmentName(emp.getDepartmentName());
+		}
 
-	    // Save and return the updated employee
-	    return employeeRepository.save(existingEmployee);
+		// Save and return the updated employee
+		return employeeRepository.save(existingEmployee);
 	}
 
-//	@Override
-//	public List<Employee> addEmployees(List<Employee> employees) {
-//	    // Validate the input list
-//	    if (employees == null || employees.isEmpty()) {
-//	        throw new AllDataRequiredException("Employee list cannot be null or empty.");
-//	    }
-//
-//	    // Ensure all required fields are provided for each employee
-//	    for (Employee emp : employees) {
-//	        if (emp.getName() == null || emp.getEmail() == null || emp.getDepartmentName() == null || emp.getSalary() == null || emp.getSalary() <= 0) {
-//	            throw new AllDataRequiredException("All required fields must be provided for each employee.");
-//	        }
-//	    }
-//
-//	    // Save all employees to the repository
-//	    return employeeRepository.saveAll(employees);
-//	}
-	
-//	@Override
-//	public List<Employee> addEmployees(List<Employee> employees) {
-//		em
-//		return employees;
-//		
-//	}
-//	
-	
-
-
+	/*
+	 * @Override public List<Employee> addEmployees(List<Employee> employees) { //
+	 * Validate the input list if (employees == null || employees.isEmpty()) { throw
+	 * new AllDataRequiredException("Employee list cannot be null or empty."); }
+	 * 
+	 * // Ensure all required fields are provided for each employee for (Employee
+	 * emp : employees) { if (emp.getName() == null || emp.getEmail() == null ||
+	 * emp.getDepartmentName() == null || emp.getSalary() == null || emp.getSalary()
+	 * <= 0) { throw new
+	 * AllDataRequiredException("All required fields must be provided for each employee."
+	 * ); } }
+	 * 
+	 * // Save all employees to the repository return
+	 * employeeRepository.saveAll(employees); }
+	 */
 
 }
