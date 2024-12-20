@@ -23,6 +23,6 @@ mysql> select * from user;
 
 if you are going to put username as "Arabinda" and password as "a" then it going to access.
 otherwise its going to get the error like Unauthorized.
-jkjk
+jkjkvfvf
  
 
